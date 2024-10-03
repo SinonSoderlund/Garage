@@ -10,28 +10,29 @@ namespace Garage
     internal class MenuContext
     {
         public string Title { get; private set; }
-        private (int, string, Action)[] menuOption;
+        private (int, (string, Func<string>?), Action)[] menuOption;
         /// <summary>
         /// Constructor for menu context
         /// </summary>
-        /// <param name="title">yTitle of menu</param>
+        /// <param name="title">Title of menu</param>
+        /// <param name="dynamicOptions">Should menu names be dynamically updated</param>
         /// <param name="options">The menu options, in form of a <int, string, delegate> tripplet param array.
         /// The int is the option number for the menu entry, the string is the entry description, and the delegate should point to a function corresponding to the desired action of the option.</param>
-        public MenuContext(string title, params(int, string, Action)[] options)
+        public MenuContext(string title, params(int, (string, Func<string>?), Action)[] options)
         {
             Title = title;
             menuOption = options;
         }
-        /// <summary>
-        /// Returns a string composed of the Title and meny options numbers and descriptors of the menu context
-        /// </summary>
-        /// <returns>Presentable menu string</returns>
-        public string GetDisplayString()
+    /// <summary>
+    /// Returns a string composed of the Title and meny options numbers and descriptors of the menu context
+    /// </summary>
+    /// <returns>Presentable menu string</returns>
+    public string GetDisplayString()
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append($"{Title}.\n");
             foreach (var v in menuOption)
-                stringBuilder.Append($"{v.Item1}: {v.Item2}\n");
+                stringBuilder.Append($"{v.Item1}: {v.Item2.Item1} {(v.Item2.Item2 != null ? v.Item2.Item2.Invoke() : "")}\n");
             return stringBuilder.ToString();
         }
         public bool ActOnInput(int i)

@@ -12,17 +12,18 @@ namespace Garage
         private IHandler garageHandler;
         private IUI userInterface;
         private MenuContexts menuContexts;
-
+        private Queryable queryObject;
         public ProgramManager()
         {
             garageHandler = new GarageHandler();
             userInterface = new UserInterface();
-            menuContexts = new MenuContexts(userInterface);
+            queryObject = new Queryable();
+            menuContexts = new MenuContexts(userInterface, queryObject);
         }
         public void Run()
         {
             while (true)
-            userInterface.RunUI(menuContexts,menuContexts.MainMenu, garageHandler);
+            userInterface.RunUI(menuContexts,menuContexts.MainMenu, garageHandler, queryObject);
         }
     }
 }

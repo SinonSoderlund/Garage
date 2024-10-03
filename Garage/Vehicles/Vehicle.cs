@@ -17,17 +17,22 @@ namespace Garage
         public Vehicle(EColors color, string registrationNumber, int numberOfWheels)
         {
             Color = color;
-            RegistrationNumber = registrationNumber;
+            RegistrationNumber = registrationNumber.ToUpper();
             NumberOfWheels = numberOfWheels;
         }
         public virtual string Print()
         {
-            return $"Type: {Name()} Color: {Color}, Registration Number: {RegistrationNumber}, Number of wheels: {NumberOfWheels}";
+            return $"Type: {Name()}, Color: {Color}, Registration Number: {RegistrationNumber}, Number of wheels: {NumberOfWheels}";
         }
 
         public virtual string Name()
         {
             return "Vehicle";
+        }
+
+        ~Vehicle()
+        {
+
         }
     }
 }

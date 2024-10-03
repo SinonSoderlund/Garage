@@ -14,7 +14,7 @@ namespace Garage
         bool RemoveVehicle(string regNr);
         string FindVehicle(string registrationNumber);
         List<string> DisplayVehicles();
-        IEnumerable<string> GetVehicles();
+        List<string> GetVehicles();
         public bool HasGarage();
         public ECapacity capacity();
 

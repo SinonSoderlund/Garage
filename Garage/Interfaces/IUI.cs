@@ -9,7 +9,7 @@ namespace Garage
 {
     internal interface IUI
     {
-        public void RunUI(MenuContexts menuContexts, MenuContext menuContext, IHandler garageHandler);
+        public void RunUI(MenuContexts menuContexts, MenuContext menuContext, IHandler garageHandler, Queryable queryObject);
         void DisplayOptions(MenuContext menuContext);
         void ActOnInput(MenuContext menuContext);
         void ManageGarages();
@@ -20,5 +20,6 @@ namespace Garage
         void CreateGarage();
         void ReturnToMain();
         void Quit();
+        void ReturnToGarageMenu();
     }
 }
