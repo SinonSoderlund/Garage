@@ -10,14 +10,18 @@ namespace Garage
     internal interface IUI
     {
         public void RunUI(MenuContexts menuContexts, MenuContext menuContext, IHandler garageHandler, Queryable queryObject);
-        void DisplayOptions(MenuContext menuContext);
-        void ActOnInput(MenuContext menuContext);
-        void ManageGarages();
+        void DisplayOptions();
+        void ActOnInput();
+        void ManageGarage();
         void ViewAllVehicles();
         void VehicleTypes();
         void AddOrRemoveVehicle();
         void FindVehicle();
         void CreateGarage();
+        void RemoveGarage();
+        void ChangeGarage();
+        void ShowGarages();
+        string CurrentGarage();
         void ReturnToMain();
         void Quit();
         void ReturnToGarageMenu();

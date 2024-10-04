@@ -12,18 +12,36 @@ namespace Garage
     {
 
         private Vehicle[] vehicles;
+        private string name;
         private int index;
 
         /// <summary>
         /// Creates a new garage, sets garagae capacity to capacity, sets index to 0
         /// </summary>
         /// <param name="capacity">The number of vehicles to fit in the garage.</param>
-        public Garage(int capacity)
+        public Garage(int capacity, string name)
         {
             vehicles = new Vehicle[capacity];
             index = 0;
+            this.name = name;
+        }
+        /// <summary>
+        /// Prints out the garage instance data.
+        /// </summary>
+        /// <returns>String with garage name and capacity</returns>
+        public string Print()
+        {
+            return $"Name: {name}, Capacity: {vehicles.Length}";
         }
 
+        /// <summary>
+        /// Returns just the garage name
+        /// </summary>
+        /// <returns></returns>
+        public string Name()
+        {
+            return name;
+        }
         /// <summary>
         /// runs a foreach over the vehicle array, casts elements to type t and returns them,, unless the list is empty.
         /// </summary>
@@ -85,8 +103,8 @@ namespace Garage
                             vehicles[j] = vehicles[j + 1];
                     vehicles[index] = null!;
                     //if index wasnt already reduced, do so here
-                    if(!indexReduced)
-                    index--;
+                    if (!indexReduced)
+                        index--;
                     return true;
                 }
             return false;
@@ -104,8 +122,8 @@ namespace Garage
         public List<Vehicle> ToList()
         {
             List<Vehicle> list = new List<Vehicle>();
-            foreach (Vehicle vehicle in vehicles)   
-                if(vehicle != null)
+            foreach (Vehicle vehicle in vehicles)
+                if (vehicle != null)
                     list.Add(vehicle);
             return list;
         }

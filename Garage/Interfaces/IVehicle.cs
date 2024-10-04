@@ -8,6 +8,7 @@ namespace Garage
 {
     internal interface IVehicle
     {
+        //Beep beep
         string Print();
         string Name();
     }

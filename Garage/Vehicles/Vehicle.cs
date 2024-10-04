@@ -20,19 +20,22 @@ namespace Garage
             RegistrationNumber = registrationNumber.ToUpper();
             NumberOfWheels = numberOfWheels;
         }
+        /// <summary>
+        /// Prints the vehicle data
+        /// </summary>
+        /// <returns></returns>
         public virtual string Print()
         {
             return $"Type: {Name()}, Color: {Color}, Registration Number: {RegistrationNumber}, Number of wheels: {NumberOfWheels}";
         }
 
+        /// <summary>
+        /// Returns string of vehicle type name
+        /// </summary>
+        /// <returns></returns>
         public virtual string Name()
         {
             return "Vehicle";
-        }
-
-        ~Vehicle()
-        {
-
         }
     }
 }

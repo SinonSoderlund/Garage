@@ -10,7 +10,7 @@ namespace Garage
     {
         public EEngineType EngineType { get; set; }
 
-        public Car (EColors color, string registrationNumber, int numberOfWheels, EEngineType engineType) : base(color, registrationNumber, numberOfWheels)
+        public Car(EColors color, string registrationNumber, int numberOfWheels, EEngineType engineType) : base(color, registrationNumber, numberOfWheels)
         {
             EngineType = engineType;
         }

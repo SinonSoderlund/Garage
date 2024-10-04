@@ -9,6 +9,17 @@
 
 };
 
+public enum EOpsLimited
+{
+    Equal = 0,
+    NotEqual = 1,
+};
+
+public enum EOpsLimitedRange
+{
+    min = 0, max = 1
+};
+
 public enum EOpsRange
 {
     min =0, max = 5

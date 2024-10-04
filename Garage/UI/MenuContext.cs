@@ -10,14 +10,14 @@ namespace Garage
     internal class MenuContext
     {
         public string Title { get; private set; }
+        //Is this a good idea? eh. is it fun and convienient to use? Yeah kinda.
         private (int, (string, Func<string>?), Action)[] menuOption;
         /// <summary>
         /// Constructor for menu context
         /// </summary>
         /// <param name="title">Title of menu</param>
-        /// <param name="dynamicOptions">Should menu names be dynamically updated</param>
-        /// <param name="options">The menu options, in form of a <int, string, delegate> tripplet param array.
-        /// The int is the option number for the menu entry, the string is the entry description, and the delegate should point to a function corresponding to the desired action of the option.</param>
+        /// <param name="options">The menu options, in form of a <int, <string, Func<string>>, Action> tripplet param array.
+        /// The int is the option number for the menu entry, the string (+ func (optional)) is the entry description, and the delegate should point to a function corresponding to the desired action of the option.</param>
         public MenuContext(string title, params(int, (string, Func<string>?), Action)[] options)
         {
             Title = title;
@@ -32,9 +32,15 @@ namespace Garage
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append($"{Title}.\n");
             foreach (var v in menuOption)
-                stringBuilder.Append($"{v.Item1}: {v.Item2.Item1} {(v.Item2.Item2 != null ? v.Item2.Item2.Invoke() : "")}\n");
+                stringBuilder.Append($"{v.Item1}: {v.Item2.Item1}{(v.Item2.Item2 != null ? v.Item2.Item2.Invoke() : "")}\n");
             return stringBuilder.ToString();
         }
+        /// <summary>
+        /// Looks to see if the input is valid, then executes input function if it is
+        /// </summary>
+        /// <param name="i">The menu option to be executed</param>
+        /// <returns>Bool indicating if menu option was sucessfully found and executed or not.</returns>
+        /// <exception cref="NullReferenceException"></exception>
         public bool ActOnInput(int i)
         {
 

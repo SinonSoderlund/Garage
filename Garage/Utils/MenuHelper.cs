@@ -84,10 +84,8 @@ namespace Garage.Utils
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("Pick an engine type:\n");
-            foreach (EOps type in Enum.GetValues(typeof(EOps)))
+            foreach (EOpsLimited type in Enum.GetValues(typeof(EOpsLimited)))
             {
-                if (type == EOps.GreaterThan)
-                    break;
                 sb.Append($"{((int)type)}: {type}.\n");
 
             }
@@ -135,13 +133,13 @@ namespace Garage.Utils
         }
 
         /// <summary>
-        /// Prints out DisplayEOpsLimitedTypes and then performs a rangechecked int console retreival which is casted to EOps (limited)
+        /// Prints out DisplayEOpsLimitedTypes and then performs a rangechecked int console retreival which is casted to EOpsLimited 
         /// </summary>
         /// <returns></returns>
-        public static EOps GetOpsLimitedType()
+        public static EOpsLimited GetOpsLimitedType()
         {
             Console.WriteLine(MenuHelper.DisplayEOpsLimitedTypes());
-            return (EOps)ConsoleUtils.GetRangeCheckedInputInt("Operation type", "Please input a valid Operation type", ((int)EOpsRange.min), (1));
+            return (EOpsLimited)ConsoleUtils.GetRangeCheckedInputInt("Operation type", "Please input a valid Operation type", ((int)EOpsLimitedRange.min), ((int)EOpsLimitedRange.max));
         }
 
         /// <summary>
@@ -172,7 +170,10 @@ namespace Garage.Utils
                     throw new Exception("CreateAVehicle GetVehicleType Failed, this should never occur.");
             }
         }
-
+        /// <summary>
+        /// Function body for removing a vehicle from the garagehandler
+        /// </summary>
+        /// <param name="handler">the garage handler of the program</param>
         public static void RemoveAVehicle(IHandler handler)
         {
             Console.WriteLine("Please enter the registration number of the vehicle you wish to remove");

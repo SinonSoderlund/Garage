@@ -9,15 +9,18 @@ namespace Garage
     internal interface IHandler
     {
 
-        void CreateGarage(int capacity);
+        void CreateGarage(string name, int capacity, bool prepopulate);
+        bool DeleteGarage(string name);
+        bool ChangeGarage(string name);
+        (bool, string) PrintGarages();
+        string CurrentGarage();
         bool AddVehicle(Vehicle vehicle);
         bool RemoveVehicle(string regNr);
-        string FindVehicle(string registrationNumber);
         List<string> DisplayVehicles();
         List<string> GetVehicles();
         public bool HasGarage();
         public ECapacity capacity();
-
+        public List<Vehicle> GetList();
 
 
     }

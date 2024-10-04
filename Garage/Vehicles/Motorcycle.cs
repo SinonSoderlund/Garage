@@ -8,7 +8,7 @@ namespace Garage
 {
     internal class Motorcycle : Vehicle
     {
-        public double EngineCapcity {  get; set; }
+        public double EngineCapcity { get; set; }
 
         public Motorcycle(EColors color, string registrationNumber, int numberOfWheels, double engineCapacity) : base(color, registrationNumber, numberOfWheels)
         {

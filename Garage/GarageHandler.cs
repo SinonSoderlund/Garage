@@ -8,6 +8,7 @@ namespace Garage
 {
     internal class GarageHandler : IHandler
     {
+        private List<Garage<Vehicle>>? garages = new List<Garage<Vehicle>>();
         private Garage<Vehicle>? garage;
 
 
@@ -18,21 +19,37 @@ namespace Garage
         public ECapacity capacity()
         {
             var state = garage!.GetState();
-            if(state.Item1 < 1)
+            if (state.Item1 < 1)
                 return ECapacity.empty;
-            else if(state.Item1 == state.Item2)
+            else if (state.Item1 == state.Item2)
                 return ECapacity.full;
             else return ECapacity.spare;
         }
-
+        /// <summary>
+        /// Adds vehicles to the garage.
+        /// </summary>
         private void Populate()
         {
-            if(garage!.GetState().Item2 > 4)
+            if (garage!.GetState().Item2 > 5)
             {
                 garage.AddVehicle(new Car(EColors.purple, "A34652", 4, EEngineType.LNG));
                 garage.AddVehicle(new Car(EColors.silver, "A35652", 4, EEngineType.LNG));
                 garage.AddVehicle(new Bus(EColors.white, "A45444", 6, 50));
                 garage.AddVehicle(new Motorcycle(EColors.black, "WROOOM", 2, 10));
+            }
+            if (garage!.GetState().Item2 > 10)
+            {
+                garage.AddVehicle(new Car(EColors.green, "A34653", 4, EEngineType.Petrol));
+                garage.AddVehicle(new Car(EColors.silver, "A35654", 4, EEngineType.Diesel));
+                garage.AddVehicle(new Bus(EColors.blue, "A44444", 4, 20));
+                garage.AddVehicle(new Motorcycle(EColors.yellow, "M6565", 2, 5));
+            }
+            if (garage!.GetState().Item2 > 15)
+            {
+                garage.AddVehicle(new Car(EColors.purple, "A84652", 4, EEngineType.Petrol));
+                garage.AddVehicle(new Car(EColors.gunmetal, "A55652", 4, EEngineType.LNG));
+                garage.AddVehicle(new Bus(EColors.lime, "B65f4", 3, 4));
+                garage.AddVehicle(new Vehicle(EColors.black, "MMM5", 7));
             }
         }
 
@@ -40,10 +57,12 @@ namespace Garage
         /// Creates a new Garage of type Vehicle with the requested capacity
         /// </summary>
         /// <param name="capacity">The number of vehicles that can fit in the garage.</param>
-        public void CreateGarage(int capacity)
+        public void CreateGarage(string name, int capacity, bool prepopulate)
         {
-            garage = new Garage<Vehicle>(capacity);
-            Populate();
+            garage = new Garage<Vehicle>(capacity, name);
+            garages!.Add(garage);
+            if (prepopulate)
+                Populate();
         }
 
         /// <summary>
@@ -63,18 +82,17 @@ namespace Garage
                     result.Add($"{v.Print()}\n");
                 return result;
             }
-            
+
         }
 
-        public string FindVehicle(string registrationNumber)
+        /// <summary>
+        /// Returns a list of all vehicles.
+        /// </summary>
+        /// <returns></returns>
+        public List<Vehicle> GetList()
         {
-            if (capacity() == ECapacity.empty)
-                return null!;
-            List<Vehicle> input = garage!.ToList();
-
-            return "";
+            return garage!.ToList();
         }
-
 
         /// <summary>
         /// Gets the list of vehicles and groups them by their name, then collapses the grouping into a string.
@@ -83,7 +101,7 @@ namespace Garage
         public List<string> GetVehicles()
         {
             if (capacity() == ECapacity.empty)
-                return null!; 
+                return null!;
 
             List<Vehicle> input = garage!.ToList();
 
@@ -121,6 +139,70 @@ namespace Garage
         public bool AddVehicle(Vehicle vehicle)
         {
             return garage!.AddVehicle(vehicle);
+        }
+
+        /// <summary>
+        /// Searches for the garage and deletes it if it exists
+        /// </summary>
+        /// <param name="name">The garage to be deleted</param>
+        /// <returns>True if operation suceeded, false if the garage was not found.<</returns>
+        public bool DeleteGarage(string name)
+        {
+            if (garages!.Count == 0)
+                return false;
+
+            Garage<Vehicle> g = garages!.FirstOrDefault(g => g.Name() == name)!;
+            if (g == default)
+                return false;
+
+            garages!.Remove(g);
+
+            if (garages.Count != 0)
+                garage = garages.FirstOrDefault();
+            else
+                garage = null;
+
+            return true;
+        }
+        /// <summary>
+        /// Changes the current garage to tne one supplied, unless there are no garages, or the specified garage does not exist
+        /// </summary>
+        /// <param name="name">Nameof the garage to be used.</param>
+        /// <returns>True if operation succeds, else false</returns>
+        public bool ChangeGarage(string name)
+        {
+            if (garages!.Count == 0)
+                return false;
+
+            Garage<Vehicle> g = garages!.FirstOrDefault(g => g.Name() == name)!;
+            if (g == default)
+                return false;
+
+            garage = g;
+            return true;
+        }
+        /// <summary>
+        /// Prints out all garages, or a message informing the user that there are no garages if so is the case.
+        /// </summary>
+        /// <returns>Tuple, where the bool indicates if there are garages, and the string containing the garage data.</returns>
+        public (bool,string) PrintGarages()
+        {
+            if (garages!.Count == 0)
+                return (false, "There are no garages presently, please create one.");
+            StringBuilder sb = new StringBuilder();
+            sb.Append("The Garages:\n");
+            foreach (Garage<Vehicle> g in garages)
+                sb.Append($"{g.Print()}\n");
+            return (true, sb.ToString());
+
+        }
+        /// <summary>
+        /// Return the current garage unless garage is null, if so return empty string.
+        /// </summary>
+        /// <returns></returns>
+        public string CurrentGarage()
+        {
+            return garage == null ? "" : $": {garage.Print()}";
         }
     }
 }
